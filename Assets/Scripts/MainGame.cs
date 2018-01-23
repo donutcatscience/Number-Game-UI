@@ -1,39 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainGame : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        print("Welcome to Number Game!");
-        print("Pick a number in your head!");
+    // Use this for initialization
+    int max;
+    int min;
+    int guess;
+    int maxGuessesAllowed = 10;
 
-        int max = 1000;
-        int min = 1;
+    public Text text;
 
-        print("The highest number you can pick is " + max);
-        print("The lowest number you can pick is " + min);
-
-        print("Is the number higher or lower than 500?");
-        print("Up = higher, down = lower, return = equal.");
-
+    void Start () {
+        StartGame();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(KeyCode.UpArrow)){
-            print("Up arrow pressed");
-        }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            print("Down Arrow Pressed");
-        }
+    public void GuessLower()
+    {
+        max = guess;
+        NextGuess();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+    public void GuessHigher()
+    {
+        min = guess;
+        NextGuess();
+    }
+
+    void StartGame()
+    {
+        max = 1000;
+        min = 1;
+        NextGuess();
+    }
+
+    void NextGuess()
+    {
+        guess = Random.Range(min, max+1);
+        text.text = guess.ToString();
+        --maxGuessesAllowed;
+        if(maxGuessesAllowed <= 0)
         {
-            print("Return Key Pressed");
+            Application.LoadLevel("Win");
         }
     }
 }
